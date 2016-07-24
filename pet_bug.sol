@@ -1,5 +1,5 @@
 //This is my pet Bug!! 
-//it's open at https://github.com/ethereum/solidity/issues/724#issuecomment-233352902
+//it's open at https://github.com/ethereum/solidity/issues 724#issuecomment-233352902
 contract micro {
 
     struct R {
