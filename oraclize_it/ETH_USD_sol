@@ -3,19 +3,20 @@
 
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
-contract PriceFeed is usingOraclize {
-  uint public ETHUSD;
+contract ETH is usingOraclize {
+  uint public USD;
+  uint public updated_time;
     
   function PriceFeed(){
     oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
     update(0); // first check at contract creation
+    updated_time = block.timestamp;
+
   }
     
   function __callback(bytes32 myid, string result, bytes proof) {
     if (msg.sender != oraclize_cbAddress()) throw;
-    ETHUSD = parseInt(result, 2); // save it as $ cents
-    // do something with ETHUSD
-    update(60); // schedule another check in 60 seconds
+    USD = parseInt(result, 2); // save it as $ cents
   }
   
   function update(uint delay){
