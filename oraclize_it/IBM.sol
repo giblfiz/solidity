@@ -3,11 +3,11 @@
 
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
-contract IBM_USDfeed is usingOraclize {
+contract IBM is usingOraclize {
   uint public USD;
   uint public updated_time;
     
-  function IBM_USDfeed(){
+  function IBM(){
     oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
     update(0); // first check at contract creation
   }
