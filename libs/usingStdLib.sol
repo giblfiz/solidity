@@ -46,6 +46,18 @@ contract usingStdLib{
         return copy;
     }
     
+	
+    function strEqualByValue(string a, string b) internal returns (bool){
+        if(bytes(a).length != bytes(b).length) return false;
+        for (uint i = 0; i < bytes(a).length; i++){
+            if (bytes(a)[i] != bytes(b)[i]){
+                return false;
+            } 
+        }
+        return true;
+    }
+    
+
     function subStr(string _s, uint start) internal returns (string) {
         return(subStr(_s, start, bytes(_s).length));
     }
