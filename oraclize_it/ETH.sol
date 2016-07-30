@@ -3,7 +3,9 @@
 
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
-contract ETH is usingOraclize {
+
+
+contract ETH is usingOraclize, foo {
   uint public USD;
   uint public updated_time;
     
