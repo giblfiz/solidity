@@ -11,7 +11,7 @@ contract usingStdLib{
         return result;
     }
 
-    
+//borrowed from @arachnid / Nick until I write my own
     function indexOf(string _haystack, string _needle) internal returns (int){
         bytes memory h = bytes(_haystack);
         bytes memory n = bytes(_needle);
@@ -36,7 +36,6 @@ contract usingStdLib{
         }   
     }
     
-    
     /* written custom ... probably should actually be a wrapper around substr*/
     function strCopyByValue(string _s) internal returns (string){
         string memory copy = new string(bytes(_s).length);
@@ -54,12 +53,11 @@ contract usingStdLib{
     function subStr(string _s, uint start, uint end) internal returns (string){
         bytes memory s = bytes(_s);
         string memory copy = new string(end - start);
-        uint k = 0;
+//        string memory copy = new string(5);
+          uint k = 0;
         for (uint i = start; i < end; i++){ 
             bytes(copy)[k++] = bytes(_s)[i];
         }
-        
-
+        return copy;
     }
-    
 }
