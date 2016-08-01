@@ -4,6 +4,7 @@
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract stdOracle is usingOraclize {
+/*
   uint public value; //The value of the oraclized thing, usually a price in usd
   uint public updated_time; //When was the value set?
   uint public priceToUse; //how many Wei for us to take your contract 
@@ -66,5 +67,5 @@ contract stdOracle is usingOraclize {
 }
 
 contract origen{
-    function __callback(string _name){}
+    function __callback(string _name){} */
 }
