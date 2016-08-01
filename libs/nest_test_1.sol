@@ -1,3 +1,3 @@
-contract nest_test_1.sol{
+contract nest_test_1{
   uint public one;
 }
