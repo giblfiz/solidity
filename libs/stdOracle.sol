@@ -43,6 +43,26 @@ contract stdOracle is usingOraclize {
     delete requestors;
   }
   
+   function updateValue(){
+    if(msg.value < priceToUse ){
+        throw; // pay for use! 
+    }
+    // call oraclize and retrieve the latest price from Yahoo's YQL API
+    oraclize_query(0, "URL", query); //delay set to zero, Maybe play with spare gas options later.
+    requestors.push(msg.sender);    
+  }
+  // Fix the query if for some reason it's broken. 
+  function setQuery(string _q){
+      if(msg.sender != owner) throw;
+      query = _q;
+  }
+
+// get the collected fee's out! 
+  function collectPayment(uint amt){
+      if(msg.sender != owner) throw;
+      if(!msg.sender.send(amt)) throw;
+  }
+  
 }
 
 contract origen{
