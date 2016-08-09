@@ -1,3 +1,5 @@
+// There is a copy of this named eth2us¢ at 0xcf631a0c28b9ebcf4a94296e2f7ff050e1954f56 on testnet
+
 contract free_oracle {
     uint public value; //The value of the oraclized thing, usually a price in usd
     uint public updated_time; //When was the value set?
