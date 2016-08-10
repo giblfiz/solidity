@@ -1,5 +1,3 @@
-//All contract addresses are for TESTNET
-
 import "github.com/giblfiz/solidity/libs/oracleIndex.sol";
 import "github.com/giblfiz/solidity/libs/stdOracle.sol";
 
@@ -43,22 +41,21 @@ contract usingMvscLib {
     // this is a an abstract function that we need the user to build out 
     function oracleCallback(stdOracle);
 
-
-    function usCentsToWei(uint uscents) internal returns (uint){
+    function usCentsToWei(uint uscents) constant returns (uint){
         stdOracle orcl =  stdOracle(0xcf631a0c28b9ebcf4a94296e2f7ff050e1954f56);
-        return ((uscents / orcl.value() )* (1 ether));
+        return ((uscents * 1 ether ) / orcl.value());
     }
 
-    function weiToUsCents(uint _wei) internal returns (uint){
+    function weiToUsCents(uint _wei) constant returns (uint){
         stdOracle orcl =  stdOracle(0xcf631a0c28b9ebcf4a94296e2f7ff050e1954f56);
         return ((_wei * orcl.value() )/ (1 ether));
     }
 
-    function usdToWei(uint usd) internal returns (uint){
+    function usdToWei(uint usd) constant returns (uint){
         return usCentsToWei(usd * 100);
     }
     
-    function weiToUsd(uint _wei) internal returns(uint){
+    function weiToUsd(uint _wei) constant returns(uint){
         return (weiToUsCents(_wei)/100);        
     }
 /*
