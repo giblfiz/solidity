@@ -1,0 +1,85 @@
+//TODO:
+//THIS IS UNTESTED / NOT WORKING  
+//DO NOT USE 
+
+import "github.com/giblfiz/solidity/libs/mvscLib.sol";
+
+contract fb100 is usingMvscLib{
+    string public fbOver100;
+    
+    function upDate(){
+        oracleCallout("fb",22);
+    }
+    
+     function oracleCallback(stdOracle fb){
+        if(fb.value() > 10000){
+            fbOver100 = "yes";
+        } else {
+            fbOver100 = "no";
+        }
+     }
+}
+
+contract hlFB is usingMvscLib{
+    uint public priceInQuestion;
+    uint public dateToEvaluate;
+    uint public betSize;
+    address public overGuy;
+    address public underGuy;
+    uint public fb;
+    
+
+    function offerBetThatPriceIsOver(uint _price, uint _dateToEvaluate){
+        if(betSize != 0 ) throw;
+        betSize = msg.value;
+        overGuy = msg.sender;
+        priceInQuestion = _price;
+        dateToEvaluate = _dateToEvaluate;
+    }
+    
+    function betThatPriceIsUnder(uint _price, uint _dateToEvaluate){
+        if(betSize != 0 ) throw;
+        betSize = msg.value;
+        underGuy = msg.sender;
+        priceInQuestion = _price;
+        dateToEvaluate = _dateToEvaluate;
+    }
+
+    function takeBet(){
+        if(betSize == 0 ) throw;
+        if(msg.value != betSize) throw;
+        if(overGuy == 0x0){
+            overGuy = msg.sender;
+        } else if (underGuy == 0x0){
+            underGuy = msg.sender;
+        }
+    }
+
+    function evaluate(){
+        if(overGuy == 0x0){
+            if (!underGuy.send(this.balance)) throw;
+            delete underGuy;
+            delete betSize;
+        } else if(underGuy == 0x0){
+            if (!overGuy.send(this.balance)) throw;
+            delete overGuy;
+            delete betSize;
+        } else {
+            oracleCallout("fb",22);
+        }
+    }
+
+    function oracleCallback(stdOracle fb){
+        if(dateToEvaluate > block.timestamp) throw; // don't evaluate before final moment.
+
+        if(fb.value() > priceInQuestion ){
+            if (!overGuy.send(this.balance)) throw;
+        } else {
+            if (!underGuy.send(this.balance)) throw;
+        }
+        delete overGuy;
+        delete underGuy;
+        delete betSize;
+    }
+    
+}
