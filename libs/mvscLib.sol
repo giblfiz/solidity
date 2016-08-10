@@ -1,3 +1,5 @@
+//All contract addresses are for TESTNET
+
 import "github.com/giblfiz/solidity/libs/oracleIndex.sol";
 import "github.com/giblfiz/solidity/libs/stdOracle.sol";
 
@@ -42,10 +44,25 @@ contract usingMvscLib {
     function oracleCallback(stdOracle);
 
 
+    function usCentsToWei(uint uscents) internal returns (uint){
+        stdOracle orcl =  stdOracle(0xcf631a0c28b9ebcf4a94296e2f7ff050e1954f56);
+        return ((uscents / orcl.value() )* (1 ether));
+    }
 
-//function oracleList(); // wrapper for getting the oracleList JSON via oracleIndex()
-//function UsdToWei(); // converts us cents to wei, using a free(ish) oracle, that I think we should upkeep
-//function WeiToUsd(); // see above, and use brain ###simpler stuff
-//string functions (search, copyByValue, subStr, equalByValue, concat)
+    function weiToUsCents(uint _wei) internal returns (uint){
+        stdOracle orcl =  stdOracle(0xcf631a0c28b9ebcf4a94296e2f7ff050e1954f56);
+        return ((_wei * orcl.value() )/ (1 ether));
+    }
 
+    function usdToWei(uint usd) internal returns (uint){
+        return usCentsToWei(usd * 100);
+    }
+    
+    function weiToUsd(uint _wei) internal returns(uint){
+        return (weiToUsCents(_wei)/100);        
+    }
+/*
+function oracleList(); // wrapper for getting the oracleList JSON via oracleIndex()
+string functions (search, copyByValue, subStr, equalByValue, concat)
+*/
 }
