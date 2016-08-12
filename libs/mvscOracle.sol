@@ -1,3 +1,10 @@
+import "github.com/giblfiz/solidity/libs/owned.sol";
+
+
+contract callerStub{
+    function __callback(){
+    }
+}
 
 contract mvscOracle is owned{
     string public name;
