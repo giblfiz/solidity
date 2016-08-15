@@ -1,5 +1,10 @@
 //Version 0.4
+
 import "github.com/giblfiz/solidity/libs/owned.sol";
+
+contract mvscOracleCaller{
+    function __callback(uint value, string target, string error);
+}
 
 contract mvscOracle is owned{
     struct req{
@@ -46,7 +51,27 @@ contract mvscOracle is owned{
 
     function update(address _a, uint _v, string _t, string _e){
         checkOwnership();
-        var caller = callerStub(_a);
+        var caller = mvscOracleCaller(_a);
         caller.__callback(_v, _t, _e);
     }    
+}
+
+contract mvscOracleTest{
+    struct response{
+        string target;
+        string error;
+        uint value;
+    }
+
+    response[] public responses;
+
+    function __callback(uint _value, string _target, string _error){
+        responses.push(response({target:_target,value:_value,error:_error}));
+    }
+    
+    function update(address _o, string _s){
+        var or = mvscOracle(_o);
+        or.request.value(100 finney)(_s);
+    }
+
 }
