@@ -1,11 +1,5 @@
 //Version 0.4
-
 import "github.com/giblfiz/solidity/libs/owned.sol";
-
-contract callerStub{
-    function __callback(uint value, string target, string error){
-    }
-}
 
 contract mvscOracle is owned{
     struct req{
