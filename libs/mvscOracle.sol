@@ -1,4 +1,4 @@
-//Version 0.3
+//Version 0.4
 
 import "github.com/giblfiz/solidity/libs/owned.sol";
 
@@ -21,6 +21,7 @@ contract mvscOracle is owned{
     }
     
     function request(string _stock){
+        if( msg.value < 1) throw; //make sure they sent us enough to actually use
         var r = req({callbackTo:msg.sender,gasValue:msg.value, stock:_stock});
         reqs.push(r);
     }
@@ -45,6 +46,7 @@ contract mvscOracle is owned{
 
     function clearReqs(){
         checkOwnership();
+        if (!owner.send(this.balance)) throw; //lets harvest all the monies
         delete reqs;
     }
 
