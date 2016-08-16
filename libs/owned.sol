@@ -11,9 +11,9 @@ contract owned{
         }
     }
     
-    function setOwner(){
+    function setOwner(address _a){
         checkOwnership();
-        owner = msg.sender;
+        owner = _a;
     }
     
 }
