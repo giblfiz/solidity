@@ -2,7 +2,7 @@ import "github.com/giblfiz/solidity/libs/mvscOracle.sol";
 import "github.com/giblfiz/solidity/libs/freeOracle.sol";
 
 contract usingMvscLib is mvscOracleCaller {
-    address mvscOracleAddr = 0x4ddc50226014c2d2890e428a7e64a90ffc82f342;
+    address mvscOracleAddr = 0x9f23678fa0b2ce34e995988fd2a464b1a182f467;
     address freeOracleAddr = 0x0a852a626e3f13a5e1d9a3b165e76f23c86379d5;
 
     function oracleCallout(string _stockName, uint gasValue){
