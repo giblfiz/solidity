@@ -19,7 +19,7 @@ contract mvscOracle is owned{
         owner = msg.sender;
     }
     
-    function request(string _stock){
+    function request(string _stock) payable {
         if( msg.value < 1) throw; //make sure they sent us enough to actually use
         var r = req({callbackTo:msg.sender,gasValue:msg.value, stock:_stock});
         reqs.push(r);
