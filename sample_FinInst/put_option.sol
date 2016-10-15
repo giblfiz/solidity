@@ -47,6 +47,9 @@ contract PutOption is ERC20{
         //(this) transfer U.A. of amount to (this)
         ua.transferFrom(msg.sender, this, amount);
 
+        // remove the used options
+        balances[msg.sender] -= amount ;
+
         //(this) transfer amount*strikePrice eth to caller
         if(!msg.sender.send(amount*strikePrice)) throw;
 
