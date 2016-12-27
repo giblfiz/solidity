@@ -36,7 +36,7 @@ struct PendingAction{
     address judicial_signature;
 }
 
-mapping (bytes32 => PendingAction) pending_actions;
+mapping (bytes32 => PendingAction) public pending_actions;
 
 
 function RealEstateTracker(address _judicial, address _local){
@@ -67,6 +67,7 @@ function SignPending(bytes32 _region_hash, address _new_owner, uint8 _action_id)
             pending_actions[pending_action_hash].judicial_signature = msg.sender;
         }
     }
+    debug(0x3);
     pendingAdded(pending_action_hash);
 }
 
@@ -143,8 +144,8 @@ function DisolveRegion(bytes32 _region_hash){
         region_record[_region_hash].lr_lng,
         region_record[_region_hash].street_address);
 
+        delete region_record[_region_hash];
         pendingExecuted(_region_hash,0x0,DISOLVE_REGION);
-
         //How can we clean up region_hash_list?
     }
 }
@@ -152,7 +153,8 @@ function DisolveRegion(bytes32 _region_hash){
 event TransferedRegion(bytes32 indexed _region_hash, string indexed _owner_name);
 function TransferRegion(bytes32 _region_hash,address _new_owner, string _new_owner_name){
     SignPending(_region_hash, _new_owner, TRANSFER_REGION);
-    if(isPendingFormalSigned(_region_hash,_new_owner,TRANSFER_REGION)){
+    if(isPendingFormalSigned(_region_hash,_new_owner,TRANSFER_REGION)
+    || isPendingOwnerSigned(_region_hash,_new_owner,TRANSFER_REGION)){
         TransferedRegion(_region_hash, region_record[_region_hash].owner_name);
         region_record[_region_hash].owner = _new_owner;
         region_record[_region_hash].owner_name = _new_owner_name;
@@ -181,7 +183,16 @@ function RemoveOfficer(address _new_officer){
     }
 }
 
-//function GetRegionByOwner(address _owner); // note computation intensive... do not us when gas is needed
+function GetRegionByOwner(address _owner) returns (bytes32[]){
+ // note computation intensive... do not us when gas is needed
+    bytes32[] matches;
+    for (uint i = 0; i < region_hash_list.length; i++) {
+      if(region_record[region_hash_list[i]].owner == _owner){
+          matches.push(region_hash_list[i]);
+      }
+    }
+    return matches;
+}
 //function CheckForRegionConflict(bytes32 _region_hash);
 
 }
