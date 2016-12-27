@@ -38,6 +38,16 @@ struct PendingAction{
 
 mapping (bytes32 => PendingAction) pending_actions;
 
+
+function RealEstateTracker(address _judicial, address _local){
+    officer[msg.sender] = FEDERAL;
+    officer[_judicial] = JUDICIAL;
+    officer[_local] = LOCAL;
+}
+
+event debug(uint8 code);
+event pendingAdded(bytes32 pa_hash);
+
 function SignPending(bytes32 _region_hash, address _new_owner, uint8 _action_id){
     bytes32 pending_action_hash = sha3(_region_hash,_new_owner,_action_id);
     if(pending_actions[pending_action_hash].region_hash == ""){
@@ -168,8 +178,7 @@ function RemoveOfficer(address _new_officer){
     }
 }
 
-function GetRegionByOwner(address _owner); // note computation intensive... do not us when gas is needed
-function CheckForRegionConflict(bytes32 _region_hash);
-
-
+//function GetRegionByOwner(address _owner); // note computation intensive... do not us when gas is needed
+//function CheckForRegionConflict(bytes32 _region_hash);
+    
 }
