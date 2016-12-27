@@ -67,12 +67,14 @@ function SignPending(bytes32 _region_hash, address _new_owner, uint8 _action_id)
             pending_actions[pending_action_hash].judicial_signature = msg.sender;
         }
     }
+    pendingAdded(pending_action_hash);
 }
 
 function isPendingOwnerSigned(bytes32 _region_hash, address _new_owner, uint8 _action_id) returns (bool){
     bytes32 pending_action_hash = sha3(_region_hash,_new_owner,_action_id);
     if(pending_actions[pending_action_hash].owner_signature != 0x0){
         if(pending_actions[pending_action_hash].local_signature != 0x0){
+            debug(0x1);
             return true;
         }
     }
@@ -84,6 +86,7 @@ function isPendingFormalSigned(bytes32 _region_hash, address _new_owner, uint8 _
     if(pending_actions[pending_action_hash].federal_signature != 0x0){
         if(pending_actions[pending_action_hash].judicial_signature != 0x0){
             if(pending_actions[pending_action_hash].local_signature != 0x0){
+                debug(0x2);
                 return true;
             }
         }
@@ -180,5 +183,5 @@ function RemoveOfficer(address _new_officer){
 
 //function GetRegionByOwner(address _owner); // note computation intensive... do not us when gas is needed
 //function CheckForRegionConflict(bytes32 _region_hash);
-    
+
 }
